@@ -11,8 +11,7 @@ export default function Admin() {
   useEffect(() => {
     fetchData()
   }, [])
-
-  
+ 
   const fetchData = async () => {
     try {
       const [usersRes, transactionsRes] = await Promise.all([
