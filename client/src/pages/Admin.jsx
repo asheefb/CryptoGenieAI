@@ -12,6 +12,7 @@ export default function Admin() {
     fetchData()
   }, [])
 
+  
   const fetchData = async () => {
     try {
       const [usersRes, transactionsRes] = await Promise.all([
