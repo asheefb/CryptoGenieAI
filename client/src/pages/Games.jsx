@@ -12,7 +12,7 @@ export default function Games() {
   useEffect(() => {
     fetchRemaining()
   }, [])
-
+  
   const fetchRemaining = async () => {
     try {
       const results = await Promise.all([
