@@ -1,6 +1,7 @@
 package com.asheef.cryptogenie.controller;
 
 import com.asheef.cryptogenie.model.Transaction;
+import com.asheef.cryptogenie.model.TransactionType;
 import com.asheef.cryptogenie.model.User;
 import com.asheef.cryptogenie.repository.UserRepository;
 import com.asheef.cryptogenie.service.TransactionService;
@@ -44,7 +45,7 @@ public class AdminController {
             user.setBalance(user.getBalance() + amount);
             userRepository.save(user);
 
-            transactionService.createTransaction(userId, "ADMIN_REWARD", amount, null, description);
+            transactionService.createTransaction(userId, TransactionType.ADMIN_REWARD, amount, null, description);
 
             return ResponseEntity.ok("Reward issued successfully");
         } catch (Exception e) {

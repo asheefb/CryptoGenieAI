@@ -1,6 +1,7 @@
 package com.asheef.cryptogenie.service.impl;
 
 import com.asheef.cryptogenie.model.MiningSession;
+import com.asheef.cryptogenie.model.TransactionType;
 import com.asheef.cryptogenie.model.User;
 import com.asheef.cryptogenie.repository.MiningRepository;
 import com.asheef.cryptogenie.repository.UserRepository;
@@ -49,7 +50,7 @@ public class MiningServiceImpl implements MiningService {
         MiningSession session = new MiningSession(userId, reward, durationSeconds);
         session = miningRepository.save(session);
 
-        transactionService.createTransaction(userId, "MINING", reward, null, "Mining reward");
+        transactionService.createTransaction(userId, TransactionType.MINING, reward, null, "Mining reward");
 
         return session;
     }

@@ -1,6 +1,7 @@
 package com.asheef.cryptogenie.service.impl;
 
 import com.asheef.cryptogenie.model.Stake;
+import com.asheef.cryptogenie.model.TransactionType;
 import com.asheef.cryptogenie.model.User;
 import com.asheef.cryptogenie.repository.StakeRepository;
 import com.asheef.cryptogenie.repository.UserRepository;
@@ -40,7 +41,7 @@ public class StakeServiceImpl implements StakeService {
         Stake stake = new Stake(userId, coinSymbol, amount, lockDays);
         stake = stakeRepository.save(stake);
 
-        transactionService.createTransaction(userId, "STAKE", amount, coinSymbol, "Staked for " + lockDays + " days");
+        transactionService.createTransaction(userId, TransactionType.STAKE, amount, coinSymbol, "Staked for " + lockDays + " days");
         return stake;
     }
 
@@ -80,7 +81,7 @@ public class StakeServiceImpl implements StakeService {
         stake.setUnstakedAt(LocalDateTime.now());
         stakeRepository.save(stake);
 
-        transactionService.createTransaction(userId, "UNSTAKE", totalAmount, stake.getCoinSymbol(),
+        transactionService.createTransaction(userId, TransactionType.UNSTAKE, totalAmount, stake.getCoinSymbol(),
                 "Unstaked with interest: " + interest);
     }
 

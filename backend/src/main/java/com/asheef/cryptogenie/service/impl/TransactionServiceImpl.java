@@ -22,9 +22,9 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction createTransaction(Long userId, String type, Double amount, String coinSymbol, String description) {
-        TransactionType t = TransactionType.valueOf(type);
-        Transaction transaction = new Transaction(userId, t, amount, coinSymbol, description);
+    public Transaction createTransaction(Long userId, TransactionType type, Double amount, String coinSymbol, String description) {
+        Transaction transaction = new Transaction(userId, type, amount, coinSymbol, description);
+
         return transactionRepository.save(transaction);
     }
 
@@ -36,7 +36,7 @@ public class TransactionServiceImpl implements TransactionService {
         user.setBalance(user.getBalance() + amount);
         userRepository.save(user);
 
-        createTransaction(userId, "DEPOSIT", amount, null, "Simulated deposit");
+        createTransaction(userId, TransactionType.DEPOSIT, amount, null, "Simulated deposit");
     }
 
     @Override
@@ -51,7 +51,7 @@ public class TransactionServiceImpl implements TransactionService {
         user.setBalance(user.getBalance() - amount);
         userRepository.save(user);
 
-        createTransaction(userId, "WITHDRAW", amount, null, "Simulated withdrawal");
+        createTransaction(userId, TransactionType.WITHDRAW, amount, null, "Simulated withdrawal");
     }
 
     @Override

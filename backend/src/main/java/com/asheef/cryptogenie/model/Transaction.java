@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "transactions")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +23,7 @@ public class Transaction {
     private Long userId;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TransactionType type;
 
     @Column(nullable = false)

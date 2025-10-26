@@ -1,6 +1,7 @@
 package com.asheef.cryptogenie.service.impl;
 
 import com.asheef.cryptogenie.model.GameResult;
+import com.asheef.cryptogenie.model.TransactionType;
 import com.asheef.cryptogenie.model.User;
 import com.asheef.cryptogenie.repository.GameResultRepository;
 import com.asheef.cryptogenie.repository.UserRepository;
@@ -48,7 +49,7 @@ public class GameServiceImpl implements GameService {
                 user.setBalance(user.getBalance() + reward);
                 userRepository.save(user);
 
-                transactionService.createTransaction(userId, "GAME_REWARD", reward, null,
+                transactionService.createTransaction(userId, TransactionType.GAME_REWARD, reward, null,
                         "Game win: " + gameType);
             }
 

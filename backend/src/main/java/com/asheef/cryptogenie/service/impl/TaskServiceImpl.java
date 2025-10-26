@@ -2,6 +2,7 @@ package com.asheef.cryptogenie.service.impl;
 
 import com.asheef.cryptogenie.model.Task;
 import com.asheef.cryptogenie.model.TaskStatus;
+import com.asheef.cryptogenie.model.TransactionType;
 import com.asheef.cryptogenie.model.User;
 import com.asheef.cryptogenie.repository.TaskRepository;
 import com.asheef.cryptogenie.repository.UserRepository;
@@ -98,7 +99,7 @@ public class TaskServiceImpl implements TaskService {
 
         transactionService.createTransaction(
                 task.getAcceptedByUserId(),
-                "TASK_REWARD",
+                TransactionType.TASK_REWARD,
                 task.getReward(),
                 null,
                 "Task completed: " + task.getTitle()
