@@ -60,10 +60,12 @@ export default function Mining() {
         { durationSeconds: miningDuration },
         { withCredentials: true }
       )
+
+      console.log('Mining response:', response.data)
       
       setMining(false)
       setProgress(100)
-      setMessage(`Mining complete! You earned $${response.data.rewardAmount.toFixed(2)}`)
+      setMessage(`Mining complete! You earned $${response.data.reward.toFixed(2)}`)
       await fetchRemainingSessions()
       await refreshUser()
     } catch (error) {
