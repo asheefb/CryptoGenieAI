@@ -178,43 +178,44 @@ export default function Tasks() {
             </div>
           )}
         </div>
-
-        <div className="bg-white rounded-xl shadow-md p-6">
-          <h2 className="text-xl font-bold mb-4">My Created Tasks</h2>
-          {myTasks.length === 0 ? (
-            <p className="text-gray-500 text-center py-4">No tasks created</p>
-          ) : (
-            <div className="space-y-3">
-              {myTasks.map(task => (
-                <div key={task.id} className="border rounded-lg p-4">
-                  <h3 className="font-semibold mb-1">{task.title}</h3>
-                  <p className="text-sm text-gray-600 mb-2">{task.description}</p>
-                  <div className="mb-2">
-                    <span className={`text-xs px-2 py-1 rounded ${task.status === 'OPEN' ? 'bg-gray-100 text-gray-800' :
-                      task.status === 'SUBMITTED' ? 'bg-blue-100 text-blue-800' :
-                        'bg-green-100 text-green-800'
-                      }`}>
-                      {task.status}
-                    </span>
+        {session_user?.isAdmin && (
+          <div className="bg-white rounded-xl shadow-md p-6">
+            <h2 className="text-xl font-bold mb-4">My Created Tasks</h2>
+            {myTasks.length === 0 ? (
+              <p className="text-gray-500 text-center py-4">No tasks created</p>
+            ) : (
+              <div className="space-y-3">
+                {myTasks.map(task => (
+                  <div key={task.id} className="border rounded-lg p-4">
+                    <h3 className="font-semibold mb-1">{task.title}</h3>
+                    <p className="text-sm text-gray-600 mb-2">{task.description}</p>
+                    <div className="mb-2">
+                      <span className={`text-xs px-2 py-1 rounded ${task.status === 'OPEN' ? 'bg-gray-100 text-gray-800' :
+                        task.status === 'SUBMITTED' ? 'bg-blue-100 text-blue-800' :
+                          'bg-green-100 text-green-800'
+                        }`}>
+                        {task.status}
+                      </span>
+                    </div>
+                    {task.status === 'SUBMITTED' && task.submissionDetails && (
+                      <>
+                        <p className="text-xs text-gray-600 mb-2">
+                          Submission: {task.submissionDetails}
+                        </p>
+                        <button
+                          onClick={() => handleApproveTask(task.id)}
+                          className="bg-green-500 text-white px-4 py-1 rounded text-sm hover:bg-green-600 w-full"
+                        >
+                          Approve & Pay
+                        </button>
+                      </>
+                    )}
                   </div>
-                  {task.status === 'SUBMITTED' && task.submissionDetails && (
-                    <>
-                      <p className="text-xs text-gray-600 mb-2">
-                        Submission: {task.submissionDetails}
-                      </p>
-                      <button
-                        onClick={() => handleApproveTask(task.id)}
-                        className="bg-green-500 text-white px-4 py-1 rounded text-sm hover:bg-green-600 w-full"
-                      >
-                        Approve & Pay
-                      </button>
-                    </>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {showCreateModal && (
