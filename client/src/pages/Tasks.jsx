@@ -11,7 +11,11 @@ export default function Tasks() {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    fetchTasks()
+    if (user) {
+      fetchTasks()
+    } else {
+      console.log("no user");
+    }
   }, [])
 
   const fetchTasks = async () => {
@@ -55,7 +59,7 @@ export default function Tasks() {
     if (!submission) return
 
     try {
-      await axios.post(`/api/tasks/${taskId}/submit`, 
+      await axios.post(`/api/tasks/${taskId}/submit`,
         { submissionDetails: submission },
         { withCredentials: true }
       )
@@ -77,12 +81,26 @@ export default function Tasks() {
     }
   }
 
-  const myTasks = tasks.filter(t => t.creatorId === user?.id)
-  const acceptedTasks = tasks.filter(t => t.acceptedByUserId === user?.id)
-  const availableTasks = tasks.filter(t => 
-    t.status === 'OPEN' && 
-    t.creatorId !== user?.id &&
-    t.acceptedByUserId !== user?.id
+  // const myTasks = tasks.filter(t => t.creatorId === user?.id)
+  // const acceptedTasks = tasks.filter(t => t.acceptedByUserId === user?.id)
+  // const availableTasks = tasks.filter(t => 
+  //   t.status === 'OPEN' && 
+  //   t.creatorId !== user?.id &&
+  //   t.acceptedByUserId !== user?.id
+  // )
+
+  const session_user_str = sessionStorage.getItem('user');
+  const session_user = session_user_str ? JSON.parse(session_user_str) : null;
+
+  const myTasks = session_user
+    ? tasks.filter(t => Number(t.creatorId) === Number(session_user.userId))
+    : [];
+
+  const acceptedTasks = tasks.filter(t => Number(t.acceptedByUserId) === Number(session_user.userId))
+  const availableTasks = tasks.filter(t =>
+    t.status === 'OPEN' &&
+    Number(t.creatorId) !== Number(user?.id) &&
+    !t.acceptedByUserId
   )
 
   return (
@@ -137,11 +155,10 @@ export default function Tasks() {
                   <h3 className="font-semibold mb-1">{task.title}</h3>
                   <p className="text-sm text-gray-600 mb-2">{task.description}</p>
                   <div className="mb-2">
-                    <span className={`text-xs px-2 py-1 rounded ${
-                      task.status === 'ACCEPTED' ? 'bg-yellow-100 text-yellow-800' :
-                      task.status === 'SUBMITTED' ? 'bg-blue-100 text-blue-800' :
-                      'bg-green-100 text-green-800'
-                    }`}>
+                    <span className={`text-xs px-2 py-1 rounded ${task.status === 'ACCEPTED' ? 'bg-yellow-100 text-yellow-800' :
+                        task.status === 'SUBMITTED' ? 'bg-blue-100 text-blue-800' :
+                          'bg-green-100 text-green-800'
+                      }`}>
                       {task.status}
                     </span>
                   </div>
@@ -170,11 +187,10 @@ export default function Tasks() {
                   <h3 className="font-semibold mb-1">{task.title}</h3>
                   <p className="text-sm text-gray-600 mb-2">{task.description}</p>
                   <div className="mb-2">
-                    <span className={`text-xs px-2 py-1 rounded ${
-                      task.status === 'OPEN' ? 'bg-gray-100 text-gray-800' :
-                      task.status === 'SUBMITTED' ? 'bg-blue-100 text-blue-800' :
-                      'bg-green-100 text-green-800'
-                    }`}>
+                    <span className={`text-xs px-2 py-1 rounded ${task.status === 'OPEN' ? 'bg-gray-100 text-gray-800' :
+                        task.status === 'SUBMITTED' ? 'bg-blue-100 text-blue-800' :
+                          'bg-green-100 text-green-800'
+                      }`}>
                       {task.status}
                     </span>
                   </div>
@@ -208,7 +224,7 @@ export default function Tasks() {
                 <input
                   type="text"
                   value={newTask.title}
-                  onChange={(e) => setNewTask({...newTask, title: e.target.value})}
+                  onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
                   className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none"
                   required
                 />
@@ -217,7 +233,7 @@ export default function Tasks() {
                 <label className="block text-sm font-medium mb-1">Description</label>
                 <textarea
                   value={newTask.description}
-                  onChange={(e) => setNewTask({...newTask, description: e.target.value})}
+                  onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
                   className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none"
                   rows="3"
                   required
@@ -229,7 +245,7 @@ export default function Tasks() {
                   type="number"
                   step="0.01"
                   value={newTask.reward}
-                  onChange={(e) => setNewTask({...newTask, reward: e.target.value})}
+                  onChange={(e) => setNewTask({ ...newTask, reward: e.target.value })}
                   className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none"
                   required
                 />

@@ -19,8 +19,12 @@ export function AuthProvider({ children }) {
     try {
       const response = await axios.get('/api/auth/me', { withCredentials: true })
       setUser(response.data)
+    sessionStorage.setItem('user', JSON.stringify(response.data))
+
+
     } catch (error) {
       setUser(null)
+      sessionStorage.removeItem('user')
     } finally {
       setLoading(false)
     }

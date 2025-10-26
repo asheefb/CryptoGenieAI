@@ -14,11 +14,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class Task {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "creator_id", nullable = false)
     private Long creatorId;
 
     @Column(nullable = false)
@@ -31,21 +32,26 @@ public class Task {
     private Double reward;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TaskStatus status = TaskStatus.OPEN;
 
+    @Column(name = "accepted_by_user_id")
     private Long acceptedByUserId;
 
+    @Column(name = "submission_details")
     private String submissionDetails;
 
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Column(name = "accepted_at")
     private LocalDateTime acceptedAt;
 
+    @Column(name = "submitted_at")
     private LocalDateTime submittedAt;
 
+    @Column(name = "completed_at")
     private LocalDateTime completedAt;
-
 
     public Task(Long creatorId, String title, String description, Double reward) {
         this.creatorId = creatorId;

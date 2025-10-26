@@ -22,6 +22,9 @@ export default function Navbar() {
               <Link to="/dashboard" className="hover:bg-white/10 px-3 py-2 rounded transition">
                 Dashboard
               </Link>
+              <Link to="/mining" className="hover:bg-white/10 px-3 py-2 rounded transition">
+                Mining
+              </Link>
               <Link to="/tasks" className="hover:bg-white/10 px-3 py-2 rounded transition">
                 Tasks
               </Link>
@@ -35,7 +38,7 @@ export default function Navbar() {
               )}
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-4">
             <div className="bg-white/20 px-4 py-2 rounded-lg font-semibold">
               Balance: ${user?.balance?.toFixed(2) || '0.00'}
@@ -63,10 +66,11 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-      
+
       <div className="md:hidden bg-white/10 px-4 py-2">
         <div className="flex justify-around">
-          <Link to="/dashboard" className="text-sm">Dashboard</Link>
+           <Link to="/dashboard" className="text-sm">Dashboard</Link>
+          <Link to="/mining" className="text-sm">Mining</Link>
           <Link to="/tasks" className="text-sm">Tasks</Link>
           <Link to="/games" className="text-sm">Games</Link>
           {user?.admin && <Link to="/admin" className="text-sm">Admin</Link>}

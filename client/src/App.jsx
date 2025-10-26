@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard'
 import CoinDetails from './pages/CoinDetails'
 import Deposit from './pages/Deposit'
 import Withdraw from './pages/Withdraw'
+import Mining from './pages/Mining'
 import Tasks from './pages/Tasks'
 import Games from './pages/Games'
 import Admin from './pages/Admin'
@@ -14,7 +15,7 @@ import { AuthProvider, useAuth } from './context/AuthContext'
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth()
-  
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -22,13 +23,13 @@ function PrivateRoute({ children }) {
       </div>
     )
   }
-  
+
   return user ? children : <Navigate to="/login" />
 }
 
 function AdminRoute({ children }) {
   const { user, loading } = useAuth()
-  
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -36,13 +37,13 @@ function AdminRoute({ children }) {
       </div>
     )
   }
-  
+
   return user && user.admin ? children : <Navigate to="/dashboard" />
 }
 
 function AppRoutes() {
   const { user } = useAuth()
-  
+
   return (
     <div className="min-h-screen bg-gray-50">
       {user && <Navbar />}
@@ -53,6 +54,7 @@ function AppRoutes() {
         <Route path="/coin/:symbol" element={<PrivateRoute><CoinDetails /></PrivateRoute>} />
         <Route path="/deposit" element={<PrivateRoute><Deposit /></PrivateRoute>} />
         <Route path="/withdraw" element={<PrivateRoute><Withdraw /></PrivateRoute>} />
+        <Route path="/mining" element={<PrivateRoute><Mining /></PrivateRoute>} />
         <Route path="/tasks" element={<PrivateRoute><Tasks /></PrivateRoute>} />
         <Route path="/games" element={<PrivateRoute><Games /></PrivateRoute>} />
         <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
