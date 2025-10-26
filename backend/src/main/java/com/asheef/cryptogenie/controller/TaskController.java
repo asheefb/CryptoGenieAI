@@ -41,7 +41,15 @@ public class TaskController {
 
             String title = (String) request.get("title");
             String description = (String) request.get("description");
-            Double reward = ((Number) request.get("reward")).doubleValue();
+
+            Object rewardObj = request.get("reward");
+            Double reward;
+
+            if (rewardObj instanceof Number) {
+                reward = ((Number) rewardObj).doubleValue();
+            } else {
+                reward = Double.parseDouble(rewardObj.toString());
+            }
 
             Task task = taskService.createTask(user.getId(), title, description, reward);
             return ResponseEntity.ok(task);
